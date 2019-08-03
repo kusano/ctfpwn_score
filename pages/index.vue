@@ -67,12 +67,18 @@ export default {
     fetch("/files/problem.json")
       .then(res => res.json())
       .then(data => {
+        let storage = JSON.parse(localStorage.ctfpwn || "{}");
+
         for (let problem of data.problems) {
           problem.input = "";
           problem.submitting = false;
           problem.solved = false;
           problem.inputSuccess = "";
           problem.inputError = "";
+
+          let flag = storage[problem.title];
+          if (flag && problem.flag==sha256(flag))
+              problem.solved = true;
         }
         this.problems = data.problems;
         this.congrats = data.congrats;
@@ -90,6 +96,10 @@ export default {
         if (problem.flag==sha256(problem.input)) {
           problem.solved = true;
           problem.inputSuccess = "correct";
+
+          let storage = JSON.parse(localStorage.ctfpwn || "{}");
+          storage[problem.title] = problem.input;
+          localStorage.ctfpwn = JSON.stringify(storage);
         } else {
           problem.inputError = "wrong";
         }
