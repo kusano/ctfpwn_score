@@ -1,0 +1,27 @@
+{
+  "congrats": "/files/congrats.jpg",
+  "problems": [
+    {
+      "description": "<p>Can you login?</p>\n<ul>\n  <li><a href=\"/files/login1\">login1</a></li>\n</ul>\n<p>\n  <pre>nc localhost 10001</pre>\n</p>\n",
+      "flag": "b5aa4adf437b937d04f2577fd77a8b1bc27c58e443174f79800a2b9a77ee9406",
+      "_comment": "FLAG{flag1}",
+      "genre": [
+        "stack",
+        "easy"
+      ],
+      "image": "/files/login1.jpg",
+      "title": "login1"
+    },
+    {
+      "description": "<p>Can't you login?</p>\n<ul>\n  <li><a href=\"/files/login2\">login2</a></li>\n</ul>\n<p>\n  <pre>nc localhost 10002</pre>\n</p>\n",
+      "flag": "47e2c9ad7ccf1d57ee8483191ce5fdbc8c84d6dd4ddab2c7cde1a810bbbf6720",
+      "_comment": "FLAG{flag2}",
+      "genre": [
+        "stack",
+        "easy"
+      ],
+      "image": "/files/login2.jpg",
+      "title": "login2"
+    }
+  ]
+}
