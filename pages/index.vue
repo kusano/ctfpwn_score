@@ -54,6 +54,20 @@
   </div>
 </template>
 
+<style>
+.v-btn {
+  text-transform: none;
+}
+
+// devとproductionでCSSの読み込み順序がなぜか変わるので上書き
+.v-btn__content .v-icon--left,
+.v-btn__content .v-icon--right {
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
+}
+</style>
+
 <script>
 import sha256 from 'crypto-js/sha256';
 
