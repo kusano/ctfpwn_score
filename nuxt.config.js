@@ -71,5 +71,8 @@ export default {
     */
     extend(config, ctx) {
     }
-  }
+  },
+  render: {
+    ssr: false,
+  },
 }
