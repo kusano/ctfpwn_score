@@ -10,6 +10,14 @@
     <v-layout v-if="cleared" justify-center>
       <v-img :src="congrats" max-width="640" class="my-4" />
     </v-layout>
+    <v-layout v-if="cleared" justify-center>
+      <div class="text-right">
+        <a class="twitter-share-button"
+          :href="getTweetURL('Solved all problems!!!')"
+          data-size="large"
+        >Tweet</a>
+      </div>
+    </v-layout>
     <v-layout wrap>
       <v-flex v-for="(problem, index) in problems" :key="index" xs12 sm6 md4 lg3 xl2>
         <v-card class="mx-2 my-4">
@@ -24,7 +32,14 @@
           </v-card-title>
           <v-img :src="problem.image" :style="{filter: problem.solved ? '' : 'grayscale(90%)'}">
           </v-img>
-          <v-card-text v-html="problem.description" />
+          <v-card-text>
+            <div v-if="problem.solved" class="text-right">
+              <a class="twitter-share-button"
+                :href="getTweetURL('Solved ' + problem.title + '!')"
+              >Tweet</a>
+            </div>
+            <div v-html="problem.description" />
+          </v-card-text>
           <v-divider />
           <v-card-actions>
             <form @submit.prevent="submit(problem)">
@@ -63,6 +78,25 @@
 <script>
 import sha256 from 'crypto-js/sha256';
 
+// :-(
+// https://developer.twitter.com/en/docs/twitter-for-websites/javascript-api/guides/set-up-twitter-for-websites
+function reloadTwitter() {
+  const id = "twitter-wjs";
+  const e = document.getElementById("id");
+  if (e)
+    e.remove();
+
+  const s = document.createElement("script");
+  s.id = id;
+  s.src = "https://platform.twitter.com/widgets.js";
+  document.body.appendChild(s);
+
+  const t = window.twttr || {};
+  t._e = [];
+  t.ready = f => {t._e.push(f);}
+  window.twttr = t;
+}
+
 export default {
   data() {
     return {
@@ -88,6 +122,8 @@ export default {
         }
         this.problems = data.problems;
         this.congrats = data.congrats;
+
+        reloadTwitter();
       });
   },
   methods: {
@@ -106,6 +142,8 @@ export default {
           let storage = JSON.parse(localStorage.ctfpwn || "{}");
           storage[problem.title] = problem.input;
           localStorage.ctfpwn = JSON.stringify(storage);
+
+          reloadTwitter();
         } else {
           problem.inputError = "wrong";
         }
@@ -116,6 +154,12 @@ export default {
           problem.processing = false;
         }, 3000);
       }, 1000);
+    },
+    getTweetURL(text) {
+      return "https://twitter.com/intent/tweet" +
+        "?text=" + encodeURIComponent(text) +
+        "&url=" + encodeURIComponent("https://sanya.sweetduet.info/ctfpwn/") +
+        "&hashtags=" + encodeURIComponent("MalleusCTFPwn");
     },
   },
   computed: {
