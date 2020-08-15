@@ -8,7 +8,7 @@
   </div>
   <div v-else>
     <v-layout v-if="cleared" justify-center>
-      <v-img :src="congrats" max-width="640" class="my-4" />
+      <v-img :src="congrats" max-width="640" class="my-4" style="border: solid #444 1px" />
     </v-layout>
     <v-layout v-if="cleared" justify-center>
       <div class="text-right">
@@ -19,15 +19,15 @@
       </div>
     </v-layout>
     <v-layout wrap>
-      <v-flex v-for="(problem, index) in problems" :key="index" xs12 sm6 md4 lg3 xl2>
-        <v-card class="mx-2 my-4">
+      <v-flex v-for="(problem, index) in problems" :key="index" xs12 sm6 md6 lg4 xl3>
+        <v-card class="mx-2 my-4" outlined>
           <v-card-title>
             <v-icon v-if="problem.solved" color="green">mdi-check-box-outline</v-icon>
             <span v-if="problem.solved" class="mx-2" />
             {{problem.title}}
             <div v-for="g in problem.genre" :key="g">
               <span class="mx-1" />
-              <v-chip small>{{g}}</v-chip>
+              <v-chip x-small>{{g}}</v-chip>
             </div>
           </v-card-title>
           <v-img :src="problem.image" :style="{filter: problem.solved ? '' : 'grayscale(90%)'}">
@@ -42,7 +42,7 @@
           </v-card-text>
           <v-divider />
           <v-card-actions>
-            <form @submit.prevent="submit(problem)">
+            <v-form @submit.prevent="submit(problem)" style="width: 100%">
               <v-text-field
                 v-model.trim="problem.input"
                 label="Flag"
@@ -61,7 +61,7 @@
                   </v-btn>
                 </template>
               </v-text-field>
-            </form>
+            </v-form>
           </v-card-actions>
         </v-card>
       </v-flex>
