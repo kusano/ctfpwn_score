@@ -25,7 +25,7 @@
             <v-icon v-if="problem.solved" color="green">mdi-check-box-outline</v-icon>
             <span v-if="problem.solved" class="mx-2" />
             {{problem.title}}
-            <div v-for="g in problem.genre">
+            <div v-for="g in problem.genre" :key="g">
               <span class="mx-1" />
               <v-chip small>{{g}}</v-chip>
             </div>
