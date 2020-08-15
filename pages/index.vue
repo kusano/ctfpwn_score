@@ -107,7 +107,10 @@ export default {
     fetch("/files/problem.json")
       .then(res => res.json())
       .then(data => {
-        let storage = JSON.parse(localStorage.ctfpwn || "{}");
+        this.id = data.id;
+        this.congrats = data.congrats;
+
+        let storage = JSON.parse(localStorage[this.id] || "{}");
 
         for (let problem of data.problems) {
           problem.input = "";
@@ -121,7 +124,6 @@ export default {
               problem.solved = true;
         }
         this.problems = data.problems;
-        this.congrats = data.congrats;
 
         reloadTwitter();
       });
@@ -139,9 +141,9 @@ export default {
           problem.solved = true;
           problem.inputSuccess = "correct";
 
-          let storage = JSON.parse(localStorage.ctfpwn || "{}");
+          let storage = JSON.parse(localStorage[this.id] || "{}");
           storage[problem.title] = problem.input;
-          localStorage.ctfpwn = JSON.stringify(storage);
+          localStorage[this.id] = JSON.stringify(storage);
 
           reloadTwitter();
         } else {
