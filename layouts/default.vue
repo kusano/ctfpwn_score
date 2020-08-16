@@ -46,8 +46,12 @@
     },
     methods: {
       removeHistory() {
-        localStorage.removeItem("ctfpwn");
-        location.reload();
+        fetch("/files/problem.json")
+          .then(res => res.json())
+          .then(data => {
+            localStorage.removeItem(data.id);
+            location.reload();
+          });
       }
     }
   }
